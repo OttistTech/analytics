@@ -15,6 +15,12 @@ O repositório do Analytics InDespensa é responsável pela Análise Exploratór
 - **Bibliotecas**: Pandas, Matplotlib, Seaborn, NumPy, Scikit-learn
 - **Dashboard**: Power BI
 
+## 📈 Bases
+
+- **Base principal e de análise de dados**: https://data.europa.eu/data/visualisation/?file=http%3A%2F%2Fwww.efsa.europa.eu%2Fsites%2Fdefault%2Ffiles%2Fchronicgdaybwtotpop.xlsx
+- **Base secundária e de BI**: https://www.kaggle.com/datasets/bls/eating-health-module-dataset
+- **Base de Matemática Aplicada**: https://dados.gov.br/dados/conjuntos-dados/alimentos-regularizados-e-situacao-do-registro
+
 ## 🤝 Colaboradores
 
 <table>
