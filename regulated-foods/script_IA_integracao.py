@@ -1,3 +1,6 @@
+# O código a seguir tem o objetivo de prever o consumo do usuário com a inteligência artificial e retornar do SQL 
+# para o MongoDB uma lista de produtos aleatórios que sejam da categoria que o usuário tem maior propensão de consumo.
+
 from pymongo import MongoClient
 import psycopg2
 from googletrans import Translator
