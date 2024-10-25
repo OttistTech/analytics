@@ -112,20 +112,24 @@ for user_id in usuarios_ids:
 
         # Recuperando produtos
         sql_cursor.execute(f"""
-            SELECT 
-                product_id, 
-                ean_code, 
-                name, 
-                image_url, 
-                food_id, 
-                category_id, 
-                description, 
-                brand_id, 
-                amount, 
-                unit, 
-                type 
-            FROM get_random_products_by_category('{previsao[0]}')
-        """)
+        SELECT 
+            p.product_id, 
+            p.ean_code, 
+            p.name, 
+            p.image_url, 
+            f.food_name, 
+            c.category_name,
+            p.description, 
+            b.brand_name, 
+            p.amount, 
+            p.unit,
+            p.type 
+        FROM get_random_products_by_category('{previsao[0]}') p
+        JOIN categories c ON p.category_id = c.category_id  
+        JOIN brand b ON p.brand_id = b.brand_id  
+        JOIN foods f ON p.food_id = f.food_id
+    """)
+
         products = sql_cursor.fetchall()
 
         if products:
@@ -137,10 +141,10 @@ for user_id in usuarios_ids:
                     "ean_code": product[1],
                     "name": product[2],
                     "image_url": product[3],
-                    "food_id": product[4],
-                    "category_id": product[5],
+                    "food_name": product[4],
+                    "category_name": product[5],
                     "description": product[6],
-                    "brand_id": product[7],
+                    "brand_name": product[7],
                     "amount": float(product[8]) if isinstance(product[8], Decimal) else product[8],
                     "unit": product[9],
                     "type": product[10]
