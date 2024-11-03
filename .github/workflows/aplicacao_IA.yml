@@ -29,14 +29,13 @@ jobs:
         pip list  # Listar pacotes instalados para verificação
 
     - name: Verificando instalação do Coverage
-      run: python -m pip show coverage  # Verificar se coverage está instalado
+      run: python -m pip show coverage
 
     - name: Conectando com a IA
-      run: python -m coverage run script_IA_integracao  # Usando python -m para chamar coverage
+      run: python -m coverage run script_IA_integracao 
 
     - name: Relatório do teste
-      run: python -m coverage report -a  # Usando python -m para chamar coverage
-
+      run: python -m coverage report -a 
     - name: Deploy no EC2 - AWS
       run: |
         echo "Conectando no EC2"
