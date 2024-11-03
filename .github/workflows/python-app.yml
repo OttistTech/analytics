@@ -30,7 +30,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
     - name: Conectando com a IA
-    - run: covarage run app_teste.py
+    - run: covarage run script_IA_integracao
 
     - name: Relatorio do teste
     - run: covarage report -a
@@ -38,7 +38,7 @@ jobs:
     - name: Deploy no EC2 - AWS
       run: |
            echo "Conectando no EC2"
-           echo "${{secrets.AWS_KEY_VENV}}" > private_key && chmod 600 private key
-           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-44-223-202-28.compute-1.amazonaws.com "
-                  cd flask_de_criazin/;git pull;./executar.sh"
+           echo "${{secrets.AWS_INDESPENSA_VENV}}" > private_key && chmod 400 private key
+           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-34-239-102-44.compute-1.amazonaws.com "
+                  cd analytics/regulated-foods/;git pull;./executar.sh"
 
