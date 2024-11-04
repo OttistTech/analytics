@@ -43,7 +43,7 @@ jobs:
       run: python -m coverage report -a  # Usando python -m para chamar coverage
 
     - name: Deploy no EC2 - AWS
-      run: |\
+      run: |
         echo "Conectando no EC2"
         echo "${{ secrets.AWS_INDESPENSA_VENV }}" > private_key &&
         chmod 600 private_key
