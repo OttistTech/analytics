@@ -107,7 +107,7 @@ def transfer_data(tables_mapping, conn_params_extracao, conn_params_insercao):
 # Parâmetros de conexão para o banco de origem
 conn_params_extracao = {
     "dbname": "adm",
-    "user": "indespensa_user",
+    "user": "indespesa",
     "host": "dpg-cri5ij3qf0us739pfh40-a.virginia-postgres.render.com",
     "password": "FeHXHzzIXvdbOyshh1WFr0GSJSRqeAl7",
     "port": "5432"
@@ -116,7 +116,7 @@ conn_params_extracao = {
 # Parâmetros de conexão para o banco de destino
 conn_params_insercao = {
     "dbname": "indespensa_18m8",
-    "user": "indespensa_user",
+    "user": "indepensa",
     "host": "dpg-cri5ij3qf0us739pfh40-a.virginia-postgres.render.com",
     "password": "FeHXHzzIXvdbOyshh1WFr0GSJSRqeAl7",
     "port": "5432"
