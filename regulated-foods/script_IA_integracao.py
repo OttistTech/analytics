@@ -1,3 +1,6 @@
+# O código a seguir tem o objetivo de prever o consumo do usuário com a inteligência artificial e retornar do SQL 
+# para o MongoDB uma lista de produtos aleatórios que sejam da categoria que o usuário tem maior propensão de consumo.
+
 from pymongo import MongoClient
 import psycopg2
 from googletrans import Translator
@@ -12,7 +15,7 @@ def obter_previsao_para_usuario(model, population, purchase_hystory, country):
         'país': [country],
         'population': [population],
         'purchase_specief': [purchase_hystory],
-        'col_5': [2123], # Nas variáveis como: país, coluna 5 e ect, adicionamos os valores mais comuns/que mais se repetem nesses campos (segundo nossa análise exploratória)
+        'col_5': [2123], # Nas variáveis como: país, coluna 5 e ect, adicionamos os valores mais comuns/que mais se repetem nesses campos (segundo nossa análise exploratória) pois, com a pouca informação do banco, não conseguimos preencher esses requisitos.
         'col_6': [7],
         'col_7': [303.3]
     })
@@ -68,7 +71,7 @@ POSTGRES_URI = f"postgresql://{conn_params['user']}:{conn_params['password']}@{c
 sql_conn = psycopg2.connect(POSTGRES_URI)
 sql_cursor = sql_conn.cursor()
 
-# Coletando todos os usuários
+# Coletando todos os usuários 
 sql_cursor.execute("SELECT user_id FROM users")
 usuarios_inputs = sql_cursor.fetchall()
 usuarios_ids = [usuario[0] for usuario in usuarios_inputs]
@@ -109,20 +112,24 @@ for user_id in usuarios_ids:
 
         # Recuperando produtos
         sql_cursor.execute(f"""
-            SELECT 
-                product_id, 
-                ean_code, 
-                name, 
-                image_url, 
-                food_id, 
-                category_id, 
-                description, 
-                brand_id, 
-                amount, 
-                unit, 
-                type 
-            FROM get_random_products_by_category('{previsao[0]}')
-        """)
+        SELECT 
+            p.product_id, 
+            p.ean_code, 
+            p.name, 
+            p.image_url, 
+            f.food_name, 
+            c.category_name,
+            p.description, 
+            b.brand_name, 
+            p.amount, 
+            p.unit,
+            p.type 
+        FROM get_random_products_by_category('{previsao[0]}') p
+        JOIN categories c ON p.category_id = c.category_id  
+        JOIN brand b ON p.brand_id = b.brand_id  
+        JOIN foods f ON p.food_id = f.food_id
+    """)
+
         products = sql_cursor.fetchall()
 
         if products:
@@ -134,10 +141,10 @@ for user_id in usuarios_ids:
                     "ean_code": product[1],
                     "name": product[2],
                     "image_url": product[3],
-                    "food_id": product[4],
-                    "category_id": product[5],
+                    "food_name": product[4],
+                    "category_name": product[5],
                     "description": product[6],
-                    "brand_id": product[7],
+                    "brand_name": product[7],
                     "amount": float(product[8]) if isinstance(product[8], Decimal) else product[8],
                     "unit": product[9],
                     "type": product[10]
