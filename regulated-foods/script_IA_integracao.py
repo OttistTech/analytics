@@ -15,7 +15,7 @@ def obter_previsao_para_usuario(model, population, purchase_hystory, country):
         'país': [country],
         'population': [population],
         'purchase_specief': [purchase_hystory],
-        'col_5': [2123], # Nas variáveis como: país, coluna 5 e ect, adicionamos os valores mais comuns/que mais se repetem nesses campos (segundo nossa análise exploratória)
+        'col_5': [2123], # Nas variáveis como: país, coluna 5 e ect, adicionamos os valores mais comuns/que mais se repetem nesses campos (segundo nossa análise exploratória) pois, com a pouca informação do banco, não conseguimos preencher esses requisitos.
         'col_6': [7],
         'col_7': [303.3]
     })
@@ -71,7 +71,7 @@ POSTGRES_URI = f"postgresql://{conn_params['user']}:{conn_params['password']}@{c
 sql_conn = psycopg2.connect(POSTGRES_URI)
 sql_cursor = sql_conn.cursor()
 
-# Coletando todos os usuários
+# Coletando todos os usuários 
 sql_cursor.execute("SELECT user_id FROM users")
 usuarios_inputs = sql_cursor.fetchall()
 usuarios_ids = [usuario[0] for usuario in usuarios_inputs]
