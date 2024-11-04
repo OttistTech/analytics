@@ -31,11 +31,6 @@ jobs:
     - name: Verificando instalação do Coverage
       run: python -m pip show coverage  # Verificar se coverage está instalado
 
-    - name: Listar arquivos no diretório
-      run: |
-        echo "Listando arquivos no diretório analytics/regulated-foods/"
-        ls -la /analytics/regulated-foods/  # Ajuste o caminho conforme necessário
-
     - name: Conectando com a IA
       run: python -m coverage run analytics/script_IA_integracao  # Ajuste o caminho se necessário
 
