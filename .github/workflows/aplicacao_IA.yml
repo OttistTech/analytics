@@ -32,7 +32,7 @@ jobs:
       run: python -m pip show coverage  # Verificar se coverage está instalado
 
     - name: Conectando com a IA
-      run: python -m coverage run analytics/script_IA_integracao  # Ajuste o caminho se necessário
+      run: python -m coverage run script_IA_integracao  # Ajuste o caminho se necessário
 
     - name: Relatório do teste
       run: python -m coverage report -a  # Usando python -m para chamar coverage
