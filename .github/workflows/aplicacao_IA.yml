@@ -48,6 +48,7 @@ jobs:
         echo "${{ secrets.AWS_INDESPENSA_VENV }}" > private_key &&
         chmod 600 private_key
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-44-218-89-231.compute-1.amazonaws.com "
-        cd analytics/regulated-foods/ && 
+        cd analytics/ &&
+        cd regulated-foods/ &&
         git pull &&
         ./executar.sh"
