@@ -28,16 +28,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip list  # Listar pacotes instalados para verificação
 
-    # - name: Verificando instalação do Coverage
-    #   run: python -m pip show coverage  # Verificar se coverage está instalado
-
-    # - name: Conectando com a IA
-    #   run: python -m coverage run regulated-foods/script_IA_integracao  # Ajuste o caminho se necessário
-
-    # - name: Relatório do teste
-    #   run: python -m coverage report -a  # Usando python -m para chamar coverage
-
-    - name: Deploy no EC2 - AWS
+    - name: Deploy da IA no EC2 - AWS
       run: |
         echo "Conectando no EC2"
         echo "${{ secrets.AWS_INDESPENSA_VENV }}" > private_key &&
@@ -45,5 +36,16 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-44-218-89-231.compute-1.amazonaws.com "
         cd analytics/ &&
         cd regulated-foods/ &&
+        git pull &&
+        ./executar.sh"
+
+    - name: Deploy do RPA no EC2 - AWS
+      run: |
+        echo "Conectando no EC2"
+        echo "${{ secrets.AWS_INDESPENSA_VENV }}" > private_key &&
+        chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-232-78-112.compute-1.amazonaws.com "
+        cd analytics/ &&
+        cd RPA_bank/ &&
         git pull &&
         ./executar.sh"
