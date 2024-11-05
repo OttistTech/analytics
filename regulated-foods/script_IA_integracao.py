@@ -49,7 +49,7 @@ else:
     print("Arquivo não encontrado:", caminho_arquivo)
 
 # Configurações do MongoDB
-MONGO_URI = 'mongodb+srv://ottistechindespensa:8xHl12le5hASngqq@cluster0.1weg8.mongodb.net/'
+MONGO_URI = 'mongodb+srv://ottistechindespensa:"${{secrets.KEY_MONGO}}"@cluster0.1weg8.mongodb.net/'
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['prediction']
 collection = db['daily_consumption']
@@ -62,7 +62,7 @@ conn_params = {
     "dbname": "dbindespensa_h41l",
     "user": "indepensa",
     "host": "dpg-cs65g2aj1k6c73a03ut0-a.virginia-postgres.render.com",
-    "password": "BYseHxX3YMee36e1m5JisHJgqS77qER2",
+    "password": "${{secrets.KEY_BANCO2}}",
     "port": "5432"
 }
 
