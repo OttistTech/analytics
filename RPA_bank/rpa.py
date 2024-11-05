@@ -107,18 +107,31 @@ def transfer_data(tables_mapping, conn_params_extracao, conn_params_insercao):
 # Parâmetros de conexão para o banco de origem
 conn_params_extracao = {
     "dbname": "adm",
+<<<<<<< HEAD
+    "user": "indespesa",
+    "host": "dpg-cri5ij3qf0us739pfh40-a.virginia-postgres.render.com",
+    "password": "FeHXHzzIXvdbOyshh1WFr0GSJSRqeAl7",
+=======
     "user": "indepensa",
     "host": "dpg-cs65g2aj1k6c73a03ut0-a.virginia-postgres.render.com",
     "password": "${{secrets.KEY_BANCO2}}",
+>>>>>>> aed3c606bbd45258c6080374e80b69f95f0cc744
     "port": "5432"
 }
 
 # Parâmetros de conexão para o banco de destino
 conn_params_insercao = {
+<<<<<<< HEAD
+    "dbname": "indespensa_18m8",
+    "user": "indepensa",
+    "host": "dpg-cri5ij3qf0us739pfh40-a.virginia-postgres.render.com",
+    "password": "FeHXHzzIXvdbOyshh1WFr0GSJSRqeAl7",
+=======
     "dbname": "dbindespensa_h41l",
     "user": "indepensa",
     "host": "dpg-cs65g2aj1k6c73a03ut0-a.virginia-postgres.render.com",
     "password": "${{secrets.KEY_BANCO2}}",
+>>>>>>> aed3c606bbd45258c6080374e80b69f95f0cc744
     "port": "5432"
 }
 
