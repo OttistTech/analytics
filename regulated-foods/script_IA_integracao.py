@@ -59,10 +59,10 @@ limpar_collection()
 
 # Configurações do PostgreSQL
 conn_params = {
-    "dbname": "dbindespensa_h41l",
-    "user": "indepensa",
-    "host": "dpg-cs65g2aj1k6c73a03ut0-a.virginia-postgres.render.com",
-    "password": "${{secrets.KEY_BANCO2}}",
+    "dbname": "dbindespensa_fv24",
+    "user": "indespensa",
+    "host": "dpg-csl2vqa3esus73fvltng-a.virginia-postgres.render.com",
+    "password": "vq3oH4u3kTMHFjW5ug6kl1bR5NCQh7k0",
     "port": "5432"
 }
 
