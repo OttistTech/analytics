@@ -1,4 +1,3 @@
-# Configurações de importação e conexão permanecem as mesmas
 from pymongo import MongoClient
 import psycopg2
 from googletrans import Translator
@@ -27,7 +26,7 @@ def limpar_collection():
     print("Coleção limpa com sucesso.")
 
 translator = Translator()
-caminho_arquivo = './melhor_modelo.pkl'
+caminho_arquivo = './knn_model_81_percent.pkl'
 if os.path.exists(caminho_arquivo):
     model = pickle.load(open(caminho_arquivo, 'rb'))
 else:
@@ -90,7 +89,7 @@ for user_id in usuarios_ids:
         df_input = pd.DataFrame({
             'Country': ['France'],
             'PopulationGroup': [populational_group],
-            'ConsumptionCategory': [purchase_history],
+            'ConsumptionSpecificity': [purchase_history],
             'GramsPerDays': [2703],
             'Days': [7],
             'GramsOneDay': [303.3]
