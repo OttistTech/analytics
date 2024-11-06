@@ -125,9 +125,8 @@ conn_params_insercao = {
 # Mapeamento das tabelas de origem para as tabelas de destino
 tabelas = {
     "users": "users",  
-    "tag": "tags",  
     "brand": "brand", 
-    "products": "product",  
+    "product": "product",  
     "cep": "cep",
     "categories": "categories"
 }
