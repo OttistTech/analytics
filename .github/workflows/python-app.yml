@@ -27,7 +27,7 @@ jobs:
     - name: Deploy da IA no EC2 - AWS
       run: |
            echo "Conectando no EC2"
-           echo "${{secrets.}}" > private_key && chmod 600 private key
+           echo "${{secrets.KEY_BANCO2}}" > private_key && chmod 600 private key
            ssh -o StrictHostKeyChecking=no -i 
            private_key ubuntu@ec2-44-218-89-231.compute-1.amazonaws.com "
                   cd analytics/regulated-foods
