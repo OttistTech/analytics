@@ -22,10 +22,8 @@ jobs:
           python-version: "3.10"
 
       - name: Deploy da IA no EC2 - AWS
-        env:
-          PRIVATE_KEY: ${{ secrets.MY_SECRET_KEY }}
         run: |
           echo "Conectando no EC2"
-          echo "${PRIVATE_KEY}" > private_key && chmod 600 private_key
+          echo "${{ secrets.KEY_BANCO2 }}" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-44-218-89-231.compute-1.amazonaws.com \
-            "cd analytics/regulated-foods && git pull && ./executar.sh"
+            "cd /regulated-foods && git pull && ./executar.sh"
