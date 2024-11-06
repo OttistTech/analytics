@@ -27,3 +27,11 @@ jobs:
           echo "${{secrets.AWS_INDESPENSA_VENV}}" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-44-218-89-231.compute-1.amazonaws.com \
             "cd analytics/regulated-foods && git pull && ./executar.sh"
+
+
+      - name: Deploy do RPA no EC2 - AWS
+        run: |
+          echo "Conectando no EC2"
+          echo "${{secrets.AWS_INDESPENSA_VENV}}" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-232-78-112.compute-1.amazonaws.com \
+            "cd analytics/RPA_bank && git pull && ./executar.sh"
