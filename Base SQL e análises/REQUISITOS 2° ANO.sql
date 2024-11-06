@@ -548,18 +548,20 @@ BEGIN
         idade := DATE_PART('year', AGE(NEW.birthdate));
         
         -- Atribui o grupo populacional com base na idade
-        IF idade <= 12 THEN
-            NEW.population_group := 'Criança';
+        IF idade <= 2 THEN
+            NEW.population_group := 'Infants';
+        ELSIF idade BETWEEN 3 AND 5 THEN
+            NEW.population_group := 'Toddlers';
+        ELSIF idade BETWEEN 6 AND 12 THEN
+            NEW.population_group := 'Other children';
         ELSIF idade BETWEEN 13 AND 17 THEN
-            NEW.population_group := 'Adolescente';
-        ELSIF idade BETWEEN 18 AND 30 THEN
-            NEW.population_group := 'Jovem adulto';
-        ELSIF idade BETWEEN 31 AND 49 THEN
-            NEW.population_group := 'Adulto';
-        ELSIF idade BETWEEN 50 AND 59 THEN
-            NEW.population_group := 'Velho adulto';
+            NEW.population_group := 'Adolescents';
+        ELSIF idade BETWEEN 18 AND 50 THEN
+            NEW.population_group := 'Adults';
+        ELSIF idade BETWEEN 51 AND 60 THEN
+            NEW.population_group := 'Elderly';
         ELSE
-            NEW.population_group := 'Idoso';
+            NEW.population_group := 'Very elderly';
         END IF;
     ELSE
         NEW.population_group := NULL;
@@ -578,12 +580,12 @@ EXECUTE FUNCTION atribuir_grupo_populacional();
 --Função para retornar produtos que propensos ao usuário consumir
 CREATE OR REPLACE FUNCTION get_random_products_by_category(p_category TEXT)
 RETURNS TABLE (
-    product_id BIGINT,          -- Alterado para BIGINT se o tipo real for BIGINT
+    product_id BIGINT,
     ean_code VARCHAR(50),
     name VARCHAR(255),
     image_url VARCHAR(255),
-    food_id BIGINT,               -- Mantenha INT se for INT na tabela
-    category_id BIGINT,           -- Mantenha INT se for INT na tabela
+    food_id BIGINT,
+    category_id BIGINT,
     description TEXT,
     brand_id BIGINT,
     amount NUMERIC(10, 2),
@@ -598,26 +600,77 @@ BEGIN
     JOIN foods f ON p.food_id = f.food_id
     WHERE 
         CASE
-            WHEN f.food_name LIKE '%Açúcar%' THEN 'Sugar and similar, confectionery and water-based sweet desserts'
-            WHEN f.food_name LIKE '%Cheetos%' THEN 'Composite dishes'
-            WHEN f.food_name LIKE '%Arroz%' THEN 'Grains and grain-based products'
-            WHEN f.food_name LIKE '%Feijão%' THEN 'Legumes, nuts, oilseeds and spices'
-            WHEN f.food_name LIKE '%Água%' THEN 'Water and water-based beverages'
-            WHEN f.food_name LIKE '%Alho%' THEN 'Vegetables and vegetable products'
-            WHEN f.food_name LIKE '%Leite Condensado%' THEN 'Milk and dairy products'
-            WHEN f.food_name LIKE '%Manteiga%' THEN 'Animal and vegetable fats and oils and primary derivatives thereof'
-            WHEN f.food_name LIKE '%Chocolate%' THEN 'Sugar and similar, confectionery and water-based sweet desserts'
-            WHEN f.food_name LIKE '%Milk Shake%' THEN 'Milk and dairy products'
-            WHEN f.food_name LIKE '%milho%' THEN 'Vegetables and vegetable products'
-            WHEN f.food_name LIKE '%Sal%' THEN 'Seasoning, sauces and condiments'
-            WHEN f.food_name LIKE '%Biscoito%' THEN 'Sugar and similar, confectionery and water-based sweet desserts'
-            WHEN f.food_name LIKE '%Farinha%' THEN 'Grains and grain-based products'
-            WHEN f.food_name LIKE '%Café%' THEN 'Coffee, cocoa, tea and infusions'
-            WHEN f.food_name LIKE '%Batata Palha%' THEN 'Vegetables and vegetable products'
-            WHEN f.food_name LIKE '%Azeite%' THEN 'Animal and vegetable fats and oils and primary derivatives thereof'
-            WHEN f.food_name LIKE '%Gelatina%' THEN 'Other ingredients'
-            WHEN f.food_name LIKE '%Macarrão%' THEN 'Grains and grain-based products'
-            WHEN f.food_name LIKE '%Molho%' THEN 'Seasoning, sauces and condiments'
+            WHEN f.food_name = 'Alcoholic beverages' THEN 'Alcoholic beverages'
+            WHEN f.food_name = 'Beer and beer-like beverage' THEN 'Beer and beer-like beverage'
+            WHEN f.food_name = 'Mixed alcoholic drinks' THEN 'Mixed alcoholic drinks'
+            WHEN f.food_name = 'Unsweetened spirits and liqueurs' THEN 'Unsweetened spirits and liqueurs'
+            WHEN f.food_name = 'Wine and wine-like drinks' THEN 'Wine and wine-like drinks'
+            WHEN f.food_name = 'Animal and vegetable fats/oils' THEN 'Animal and vegetable fats/oils'
+            WHEN f.food_name = 'Fat emulsions and blended fats' THEN 'Fat emulsions and blended fats'
+            WHEN f.food_name = 'Hot drinks and similar (coffee, cocoa, tea and herbal infusions)' THEN 'Hot drinks and similar (coffee, cocoa, tea and herbal infusions)'
+            WHEN f.food_name = 'Ingredients for coffee, cocoa, tea, and herbal infusions' THEN 'Ingredients for coffee, cocoa, tea, and herbal infusions'
+            WHEN f.food_name = 'Dishes, incl. Ready to eat meals (excluding soups and salads)' THEN 'Dishes, incl. Ready to eat meals (excluding soups and salads)'
+            WHEN f.food_name = 'Fried or extruded cereal, seed or root-based products' THEN 'Fried or extruded cereal, seed or root-based products'
+            WHEN f.food_name = 'Soups and salads' THEN 'Soups and salads'
+            WHEN f.food_name = 'Processed eggs' THEN 'Processed eggs'
+            WHEN f.food_name = 'Unprocessed eggs' THEN 'Unprocessed eggs'
+            WHEN f.food_name = 'Crustaceans' THEN 'Crustaceans'
+            WHEN f.food_name = 'Fish (meat)' THEN 'Fish (meat)'
+            WHEN f.food_name = 'Fish and seafood processed' THEN 'Fish and seafood processed'
+            WHEN f.food_name = 'Molluscs' THEN 'Molluscs'
+            WHEN f.food_name = 'Fruit used as fruit' THEN 'Fruit used as fruit'
+            WHEN f.food_name = 'Processed fruit products' THEN 'Processed fruit products'
+            WHEN f.food_name = 'Concentrated or dehydrated fruit/vegetables juices' THEN 'Concentrated or dehydrated fruit/vegetables juices'
+            WHEN f.food_name = 'Extracts of plant origin' THEN 'Extracts of plant origin'
+            WHEN f.food_name = 'Fruit / vegetable juices and nectars' THEN 'Fruit / vegetable juices and nectars'
+            WHEN f.food_name = 'Bread and similar products' THEN 'Bread and similar products'
+            WHEN f.food_name = 'Breakfast cereals' THEN 'Breakfast cereals'
+            WHEN f.food_name = 'Cereals and cereal primary derivatives' THEN 'Cereals and cereal primary derivatives'
+            WHEN f.food_name = 'Fine bakery wares' THEN 'Fine bakery wares'
+            WHEN f.food_name = 'Pasta, doughs and similar products' THEN 'Pasta, doughs and similar products'
+            WHEN f.food_name = 'Legumes' THEN 'Legumes'
+            WHEN f.food_name = 'Nuts, oilseeds and oilfruits' THEN 'Nuts, oilseeds and oilfruits'
+            WHEN f.food_name = 'Processed legumes, nuts, oilseeds and spices' THEN 'Processed legumes, nuts, oilseeds and spices'
+            WHEN f.food_name = 'Spices' THEN 'Spices'
+            WHEN f.food_name = 'Food flavourings' THEN 'Food flavourings'
+            WHEN f.food_name = 'Miscellaneous agents for food processing' THEN 'Miscellaneous agents for food processing'
+            WHEN f.food_name = 'Starches' THEN 'Starches'
+            WHEN f.food_name = 'Animal edible offal, non-muscle, other than liver and kidney' THEN 'Animal edible offal, non-muscle, other than liver and kidney'
+            WHEN f.food_name = 'Animal fresh fat tissues' THEN 'Animal fresh fat tissues'
+            WHEN f.food_name = 'Animal liver' THEN 'Animal liver'
+            WHEN f.food_name = 'Mammals and birds meat' THEN 'Mammals and birds meat'
+            WHEN f.food_name = 'Meat specialties' THEN 'Meat specialties'
+            WHEN f.food_name = 'Processed whole meat products' THEN 'Processed whole meat products'
+            WHEN f.food_name = 'Sausages' THEN 'Sausages'
+            WHEN f.food_name = 'Cheese' THEN 'Cheese'
+            WHEN f.food_name = 'Dairy dessert and similar' THEN 'Dairy dessert and similar'
+            WHEN f.food_name = 'Fermented milk or cream' THEN 'Fermented milk or cream'
+            WHEN f.food_name = 'Milk and dairy powders and concentrates' THEN 'Milk and dairy powders and concentrates'
+            WHEN f.food_name = 'Milk, whey and cream' THEN 'Milk, whey and cream'
+            WHEN f.food_name = 'Artificial sweeteners (e.g., aspartam, saccharine)' THEN 'Artificial sweeteners (e.g., aspartam, saccharine)'
+            WHEN f.food_name = 'Food for particular diets' THEN 'Food for particular diets'
+            WHEN f.food_name = 'Food supplements and similar preparations' THEN 'Food supplements and similar preparations'
+            WHEN f.food_name = 'Meat and dairy imitates' THEN 'Meat and dairy imitates'
+            WHEN f.food_name = 'Condiments (including table-top formats)' THEN 'Condiments (including table-top formats)'
+            WHEN f.food_name = 'Savoury extracts and sauce ingredients' THEN 'Savoury extracts and sauce ingredients'
+            WHEN f.food_name = 'Seasonings and extracts' THEN 'Seasonings and extracts'
+            WHEN f.food_name = 'Starchy roots and tubers' THEN 'Starchy roots and tubers'
+            WHEN f.food_name = 'Confectionery including chocolate' THEN 'Confectionery including chocolate'
+            WHEN f.food_name = 'Sugar and other sweetening ingredients (excluding intensive sweeteners)' THEN 'Sugar and other sweetening ingredients (excluding intensive sweeteners)'
+            WHEN f.food_name = 'Bulb vegetables' THEN 'Bulb vegetables'
+            WHEN f.food_name = 'Flowering brassica' THEN 'Flowering brassica'
+            WHEN f.food_name = 'Fruiting vegetables' THEN 'Fruiting vegetables'
+            WHEN f.food_name = 'Fungi, mosses and lichens' THEN 'Fungi, mosses and lichens'
+            WHEN f.food_name = 'Herbs and edible flowers' THEN 'Herbs and edible flowers'
+            WHEN f.food_name = 'Leafy vegetables' THEN 'Leafy vegetables'
+            WHEN f.food_name = 'Legumes with pod' THEN 'Legumes with pod'
+            WHEN f.food_name = 'Processed or preserved vegetables and similar' THEN 'Processed or preserved vegetables and similar'
+            WHEN f.food_name = 'Root and tuber vegetables (excluding starchy- and sugar-)' THEN 'Root and tuber vegetables (excluding starchy- and sugar-)'
+            WHEN f.food_name = 'Sprouts, shoots and similar' THEN 'Sprouts, shoots and similar'
+            WHEN f.food_name = 'Stems/stalks eaten as vegetables' THEN 'Stems/stalks eaten as vegetables'
+            WHEN f.food_name = 'Vegetables and vegetable products' THEN 'Vegetables and vegetable products'
+            WHEN f.food_name = 'Drinking water' THEN 'Drinking water'
+            WHEN f.food_name = 'Water based beverages' THEN 'Water based beverages'
             ELSE 'Other ingredients'
         END = p_category
     ORDER BY random()
